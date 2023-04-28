@@ -9,6 +9,6 @@ path = "src/main.rs"
 
 [[bin]]
 name = "day1"
-path = "src/day1/stars.rs"
+path = "src/day1/calories.rs"
 
 [dependencies]
