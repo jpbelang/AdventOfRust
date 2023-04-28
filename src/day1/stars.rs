@@ -31,9 +31,8 @@ fn read_all_elves(reader: &mut dyn BufRead) -> Vec<u32> {
 fn main() {
     let mut buf = BufReader::new(File::open("src/day1/test1.txt").expect("file not found"));
     let mut  elves = read_all_elves(&mut buf);
-    elves.sort();
-    elves.reverse();
-    let foo = elves[0..3].to_vec();
+    elves.sort_by(|a,b| { b.cmp(a)});
+    let foo = &elves[0..3];
     println!("{}", foo.iter().sum::<u32>());
 }
 
