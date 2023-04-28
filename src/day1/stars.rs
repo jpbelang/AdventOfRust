@@ -11,7 +11,6 @@ fn read_one_elf(reader: &mut dyn BufRead) -> u32 {
             return total;
         } else {
             let q = line.trim().parse::<u32>().expect("invalid number");
-            println!("{q}");
             total += q;
         }
     }
@@ -30,8 +29,12 @@ fn read_all_elves(reader: &mut dyn BufRead) -> Vec<u32> {
 }
 
 fn main() {
-    let buf = BufReader::new(File::open("test1.txt").expect("file not fount"));
-    let elf = read_all_elves(&buf);
+    let mut buf = BufReader::new(File::open("src/day1/test1.txt").expect("file not found"));
+    let mut  elves = read_all_elves(&mut buf);
+    elves.sort();
+    elves.reverse();
+    let foo = elves[0..3].to_vec();
+    println!("{}", foo.iter().sum::<u32>());
 }
 
 #[cfg(test)]
