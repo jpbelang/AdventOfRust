@@ -7,6 +7,29 @@ enum RPS {
     Scissor,
 }
 
+impl RPS {
+    fn from_letter(letter: &str) -> RPS {
+        return if letter == "A" {
+            RPS::Rock
+        } else if letter == "B" {
+            RPS::Paper
+        } else {
+            RPS::Scissor
+        }
+    }
+
+    fn beats_move(&self, opponent_move: RPS) {}
+}
+
+fn from_string(letter: &str) -> &dyn RPSShape {
+    return if letter == "X" {
+        &Rock {}
+    } else if letter == "Y" {
+        &Paper {}
+    } else {
+        &Scissor {}
+    }
+}
 
 trait RPSShape {
     fn point_value(&self) -> u32;
@@ -25,7 +48,6 @@ impl RPSShape for Rock {
             RPS::Rock => 3 + self.point_value(),
             RPS::Paper => 0 + self.point_value(),
             RPS::Scissor => 6 + self.point_value(),
-
         }
     }
 }
@@ -42,7 +64,6 @@ impl RPSShape for Paper {
             RPS::Rock => 6 + self.point_value(),
             RPS::Paper => 3 + self.point_value(),
             RPS::Scissor => 0 + self.point_value(),
-
         }
     }
 }
@@ -64,32 +85,15 @@ impl RPSShape for Scissor {
 }
 
 fn main() {
-
     let mut buf = BufReader::new(File::open("src/day2/test1.txt").expect("file not found"));
     let mut total = 0;
     loop {
         let mut line = String::new();
         let result = buf.read_line(&mut line);
         if result.expect("can't read") > 0 {
-
             let moves = line.trim().split(" ").collect::<Vec<&str>>();
-            let opponent;
-            let me:&dyn RPSShape;
-            if  moves[0] == "A" {
-                opponent = RPS::Rock;
-            } else if moves[0] == "B" {
-                opponent = RPS::Paper;
-            } else {
-                opponent = RPS::Scissor
-            }
-
-            if  moves[1] == "X" {
-                me = &Rock{};
-            } else if moves[1] == "Y" {
-                me = &Paper{};
-            } else {
-                me = &Scissor{}
-            }
+            let opponent = RPS::from_letter(moves[0]);
+            let me: &dyn RPSShape = from_string(moves[1]);
 
             let current = me.beats(&opponent);
             println!("current {current}");
@@ -99,6 +103,4 @@ fn main() {
             return;
         }
     }
-
-
 }
