@@ -11,4 +11,8 @@ path = "src/main.rs"
 name = "day1"
 path = "src/day1/calories.rs"
 
+[[bin]]
+name = "day2"
+path = "src/day2/rock_paper_scissors.rs"
+
 [dependencies]
